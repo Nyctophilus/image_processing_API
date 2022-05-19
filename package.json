@@ -9,7 +9,7 @@
     "prettier": "prettier",
     "eslint": "eslint",
     "test": "npm run build && npm run jasmine",
-    "mon": "nodemon src/index.ts"
+    "mon": "nodemon dist/."
   },
   "repository": {
     "type": "git",

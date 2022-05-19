@@ -3,7 +3,11 @@ import imgRouter from "./api/images";
 
 const router = express.Router();
 
-router.get("/", (req, res) => res.send("hello server"));
+// starter route with a hint to get started with the api
+router.get("/", (req, res) =>
+  res.send(`hello server... 
+for a quick test, you can navigate to /image?filename=imgName&w=1500&h=800`)
+);
 
 router.use(imgRouter);
 

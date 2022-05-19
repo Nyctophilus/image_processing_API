@@ -39,30 +39,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var sharp_1 = __importDefault(require("sharp"));
-var fs_1 = __importDefault(require("fs"));
-var imgPath = "D:/FrontendPath/fwd/Advanced NanoDegree/image_processing_API/dist/images/";
-var imgProcess = function (filename, width, height) { return __awaiter(void 0, void 0, void 0, function () {
-    var img, error_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, sharp_1.default)("".concat(imgPath).concat(filename, ".jpg"))
-                        .resize(parseInt(width), parseInt(height))
-                        .jpeg()
-                        .toBuffer()];
-            case 1:
-                img = _a.sent();
-                // making the new image based on the request dimonsions
-                fs_1.default.writeFileSync("".concat(imgPath).concat(width, "x").concat(height, "_").concat(filename, ".jpg"), img);
-                return [3 /*break*/, 3];
-            case 2:
-                error_1 = _a.sent();
-                console.log(error_1);
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.default = { imgProcess: imgProcess, imgPath: imgPath };
+var imgProcessing_1 = __importDefault(require("../../img-processing/imgProcessing"));
+describe("Test image processing params", function () {
+    it("process the image", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var filename, width, height;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    filename = "imageName", width = "200", height = "200";
+                    return [4 /*yield*/, imgProcessing_1.default.imgProcess(filename, width, height)];
+                case 1:
+                    _a.sent();
+                    expect(filename).toBe("imageName");
+                    expect(width).toBe("200");
+                    expect(height).toBe("200");
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});

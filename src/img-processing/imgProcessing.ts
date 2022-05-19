@@ -5,16 +5,20 @@ const imgPath: string =
   "D:/FrontendPath/fwd/Advanced NanoDegree/image_processing_API/dist/images/";
 
 const imgProcess = async (
-  filename: any,
-  width: any,
-  height: any
-) => {
+  filename: string,
+  width: string,
+  height: string
+): Promise<void> => {
   try {
-    const img = await sharp(`${imgPath}${filename}.jpg`)
+    // using sharp to resize jpg and adding to a buffer
+    const img: Buffer = await sharp(
+      `${imgPath}${filename}.jpg`
+    )
       .resize(parseInt(width), parseInt(height))
       .jpeg()
       .toBuffer();
 
+    // making the new image based on the request dimonsions
     fs.writeFileSync(
       `${imgPath}${width}x${height}_${filename}.jpg`,
       img
