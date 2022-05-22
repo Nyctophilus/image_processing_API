@@ -11,11 +11,11 @@ Image Processing App with an express server that manipulates images based on a s
 - install dependencies
 - build script to compile ts `npm run build`
 - start local server on port: 3000 with the command: `npm run mon`
-- in the imgProcessing folder, you should change the imgPath to the absolute path on your local machine to the folder containing the images
 - navigate to localhost:3000/image??filename=imgName&w=200&h=200
 - the server will return/display the image with the new dimensions
 
 - jasmine test command `npm run test`
+- eslint & prettier command `npm run prettylint`
 
 ## Table of Contents
 

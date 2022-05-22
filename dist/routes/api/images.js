@@ -48,7 +48,7 @@ var imgFunc = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                filePath = "D:/FrontendPath/fwd/Advanced NanoDegree/image_processing_API/dist/images/";
+                filePath = "".concat(process.cwd(), "/dist/images/");
                 fn = req.query
                     .filename;
                 width = req.query.w;
@@ -57,11 +57,14 @@ var imgFunc = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
             case 1:
                 _a.trys.push([1, 4, , 5]);
                 //FIXDONE - check if the image exists
-                if (!fs_1.default.existsSync("".concat(filePath).concat(fn, ".jpg"))) {
-                    res
-                        .status(404)
-                        .send("Image named '".concat(fn, "' not found on your directory!"));
-                }
+                fs_1.default.access("".concat(filePath).concat(fn, ".jpg"), fs_1.default.constants.F_OK, function (err) {
+                    //err ? 'does not exist' : 'exists'
+                    if (err) {
+                        res
+                            .status(404)
+                            .send("Image named '".concat(fn, "' not found on your directory!"));
+                    }
+                });
                 if (!!fs_1.default.existsSync("".concat(filePath).concat(width, "x").concat(height, "_").concat(fn, ".jpg"))) return [3 /*break*/, 3];
                 // wait until the image resized
                 return [4 /*yield*/, imgProcessing_1.default.imgProcess(fn, width, height)];
