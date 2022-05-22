@@ -41,7 +41,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var sharp_1 = __importDefault(require("sharp"));
 var fs_1 = __importDefault(require("fs"));
-var imgPath = "D:/FrontendPath/fwd/Advanced NanoDegree/image_processing_API/dist/images/";
+var path_1 = __importDefault(require("path"));
+var imgPath = path_1.default.join(__dirname, '/../../images/');
 var imgProcess = function (filename, width, height) { return __awaiter(void 0, void 0, void 0, function () {
     var img, error_1;
     return __generator(this, function (_a) {

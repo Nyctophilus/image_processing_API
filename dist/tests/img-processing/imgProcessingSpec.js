@@ -40,19 +40,61 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var imgProcessing_1 = __importDefault(require("../../img-processing/imgProcessing"));
-describe("Test image processing params", function () {
-    it("process the image", function () { return __awaiter(void 0, void 0, void 0, function () {
+describe('Test image processing function', function () {
+    it('process the image', function () { return __awaiter(void 0, void 0, void 0, function () {
         var filename, width, height;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    filename = "imageName", width = "200", height = "200";
+                    filename = 'imageName', width = '200', height = '200';
                     return [4 /*yield*/, imgProcessing_1.default.imgProcess(filename, width, height)];
                 case 1:
                     _a.sent();
-                    expect(filename).toBe("imageName");
-                    expect(width).toBe("200");
-                    expect(height).toBe("200");
+                    expect(filename).toBe('imageName');
+                    expect(width).toBe('200');
+                    expect(height).toBe('200');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('request non-existing image', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var filename, width, height;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    filename = 'NotimageName', width = '200', height = '200';
+                    return [4 /*yield*/, imgProcessing_1.default.imgProcess(filename, width, height)];
+                case 1:
+                    _a.sent();
+                    expect(filename).not.toBe('imageName');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('invalid width', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var filename, width, height;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    filename = 'NotimageName', width = 'asd', height = '200';
+                    return [4 /*yield*/, imgProcessing_1.default.imgProcess(filename, width, height)];
+                case 1:
+                    _a.sent();
+                    expect(width).not.toBe('200');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('invalid height', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var filename, width, height;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    filename = 'NotimageName', width = '200', height = 'asd';
+                    return [4 /*yield*/, imgProcessing_1.default.imgProcess(filename, width, height)];
+                case 1:
+                    _a.sent();
+                    expect(height).not.toBe('200');
                     return [2 /*return*/];
             }
         });

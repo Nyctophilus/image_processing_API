@@ -1,8 +1,8 @@
 import sharp from 'sharp';
 import fs from 'fs';
+import path from 'path';
 
-const imgPath: string =
-  'D:/FrontendPath/fwd/Advanced NanoDegree/image_processing_API/dist/images/';
+const imgPath: string = path.join(__dirname, '/../../images/');
 
 const imgProcess = async (
   filename: string,

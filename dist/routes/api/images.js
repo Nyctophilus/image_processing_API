@@ -42,20 +42,50 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var imgProcessing_1 = __importDefault(require("../../img-processing/imgProcessing"));
 var fs_1 = __importDefault(require("fs"));
+var path_1 = __importDefault(require("path"));
 var imgRouter = express_1.default.Router();
 var imgFunc = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var filePath, fn, width, height, error_1;
+    var filePath, fn, width, height, errMsg, errMsg, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                filePath = "".concat(process.cwd(), "/dist/images/");
-                fn = req.query
-                    .filename;
+                filePath = path_1.default.join(__dirname, '/../../../images/');
+                fn = req.query.filename;
                 width = req.query.w;
                 height = req.query.h;
-                _a.label = 1;
+                if (!(!fn || !width || !height)) return [3 /*break*/, 1];
+                errMsg = [];
+                if (!fn)
+                    errMsg.push('name');
+                if (!width)
+                    errMsg.push('width');
+                if (!height)
+                    errMsg.push('height');
+                res.status(500).send("You have to write an image ".concat(errMsg.join(' & '), "!"));
+                return [3 /*break*/, 6];
             case 1:
-                _a.trys.push([1, 4, , 5]);
+                if (!(!/^[0-9]+$/g.test(width) || !/^[0-9]+$/g.test(height))) return [3 /*break*/, 2];
+                errMsg = [];
+                // negative numbers
+                if (parseInt(width) < 1 || parseInt(height) < 1) {
+                    if (parseInt(width) < 1)
+                        errMsg.push('width that exceeds zero!');
+                    if (parseInt(height) < 1)
+                        errMsg.push('height that exceeds zero!');
+                }
+                // string inputs
+                else {
+                    if (!/^[0-9]+$/g.test(width))
+                        errMsg.push('width');
+                    if (!/^[0-9]+$/g.test(height))
+                        errMsg.push('height');
+                }
+                res
+                    .status(500)
+                    .send("You have to write a proper numeric image ".concat(errMsg.join(' & '), "!"));
+                return [3 /*break*/, 6];
+            case 2:
+                _a.trys.push([2, 5, , 6]);
                 //FIXDONE - check if the image exists
                 fs_1.default.access("".concat(filePath).concat(fn, ".jpg"), fs_1.default.constants.F_OK, function (err) {
                     //err ? 'does not exist' : 'exists'
@@ -65,25 +95,25 @@ var imgFunc = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                             .send("Image named '".concat(fn, "' not found on your directory!"));
                     }
                 });
-                if (!!fs_1.default.existsSync("".concat(filePath).concat(width, "x").concat(height, "_").concat(fn, ".jpg"))) return [3 /*break*/, 3];
+                if (!!fs_1.default.existsSync("".concat(filePath).concat(width, "x").concat(height, "_").concat(fn, ".jpg"))) return [3 /*break*/, 4];
                 // wait until the image resized
                 return [4 /*yield*/, imgProcessing_1.default.imgProcess(fn, width, height)];
-            case 2:
+            case 3:
                 // wait until the image resized
                 _a.sent();
-                _a.label = 3;
-            case 3:
+                _a.label = 4;
+            case 4:
                 // console.log(`new|repeated, will use the cached img`);
                 // send the edited image as a server response
-                res.sendFile("".concat(imgProcessing_1.default.imgPath).concat(width, "x").concat(height, "_").concat(fn, ".jpg"));
-                return [3 /*break*/, 5];
-            case 4:
+                res.sendFile("".concat(filePath).concat(width, "x").concat(height, "_").concat(fn, ".jpg"));
+                return [3 /*break*/, 6];
+            case 5:
                 error_1 = _a.sent();
                 console.log(error_1);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); };
-imgRouter.get("/image", imgFunc);
+imgRouter.get('/image', imgFunc);
 exports.default = imgRouter;
