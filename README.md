@@ -11,7 +11,7 @@ Image Processing App with an express server that manipulates images based on a s
 - install dependencies
 - build script to compile ts `npm run build`
 - start local server on port: 3000 with the command: `npm run mon`
-- navigate to localhost:3000/image??filename=imgName&w=200&h=200
+- navigate to localhost:3000/image??filename=hunt&w=200&h=200
 - the server will return/display the image with the new dimensions
 
 - jasmine test command `npm run test`

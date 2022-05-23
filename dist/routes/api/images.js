@@ -45,7 +45,7 @@ var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
 var imgRouter = express_1.default.Router();
 var imgFunc = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var filePath, fn, width, height, errMsg, errMsg, error_1;
+    var filePath, fn, width, height, errMsg, errMsg, errMsg, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -62,7 +62,7 @@ var imgFunc = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 if (!height)
                     errMsg.push('height');
                 res.status(500).send("You have to write an image ".concat(errMsg.join(' & '), "!"));
-                return [3 /*break*/, 6];
+                return [3 /*break*/, 7];
             case 1:
                 if (!(!/^[0-9]+$/g.test(width) || !/^[0-9]+$/g.test(height))) return [3 /*break*/, 2];
                 errMsg = [];
@@ -83,9 +83,20 @@ var imgFunc = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                 res
                     .status(500)
                     .send("You have to write a proper numeric image ".concat(errMsg.join(' & '), "!"));
-                return [3 /*break*/, 6];
+                return [3 /*break*/, 7];
             case 2:
-                _a.trys.push([2, 5, , 6]);
+                if (!(width == '0' || height == '0')) return [3 /*break*/, 3];
+                errMsg = [];
+                if (width == '0')
+                    errMsg.push('width');
+                if (height == '0')
+                    errMsg.push('height');
+                res
+                    .status(500)
+                    .send("You have to write an image ".concat(errMsg.join(' & '), " that exceeds zero!"));
+                return [3 /*break*/, 7];
+            case 3:
+                _a.trys.push([3, 6, , 7]);
                 //FIXDONE - check if the image exists
                 fs_1.default.access("".concat(filePath).concat(fn, ".jpg"), fs_1.default.constants.F_OK, function (err) {
                     //err ? 'does not exist' : 'exists'
@@ -95,23 +106,23 @@ var imgFunc = function (req, res) { return __awaiter(void 0, void 0, void 0, fun
                             .send("Image named '".concat(fn, "' not found on your directory!"));
                     }
                 });
-                if (!!fs_1.default.existsSync("".concat(filePath).concat(width, "x").concat(height, "_").concat(fn, ".jpg"))) return [3 /*break*/, 4];
+                if (!!fs_1.default.existsSync("".concat(filePath).concat(width, "x").concat(height, "_").concat(fn, ".jpg"))) return [3 /*break*/, 5];
                 // wait until the image resized
                 return [4 /*yield*/, imgProcessing_1.default.imgProcess(fn, width, height)];
-            case 3:
+            case 4:
                 // wait until the image resized
                 _a.sent();
-                _a.label = 4;
-            case 4:
+                _a.label = 5;
+            case 5:
                 // console.log(`new|repeated, will use the cached img`);
                 // send the edited image as a server response
                 res.sendFile("".concat(filePath).concat(width, "x").concat(height, "_").concat(fn, ".jpg"));
-                return [3 /*break*/, 6];
-            case 5:
+                return [3 /*break*/, 7];
+            case 6:
                 error_1 = _a.sent();
                 console.log(error_1);
-                return [3 /*break*/, 6];
-            case 6: return [2 /*return*/];
+                return [3 /*break*/, 7];
+            case 7: return [2 /*return*/];
         }
     });
 }); };

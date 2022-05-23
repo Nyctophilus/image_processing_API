@@ -18,6 +18,8 @@ const imgFunc = async (
   const height: string = req.query.h as unknown as string;
 
   // FIXME error messages
+
+  // null inputs
   if (!fn || !width || !height) {
     let errMsg: string[] = [];
 
@@ -26,7 +28,10 @@ const imgFunc = async (
     if (!height) errMsg.push('height');
 
     res.status(500).send(`You have to write an image ${errMsg.join(' & ')}!`);
-  } else if (!/^[0-9]+$/g.test(width) || !/^[0-9]+$/g.test(height)) {
+  }
+
+  // strings and negtive numbers
+  else if (!/^[0-9]+$/g.test(width) || !/^[0-9]+$/g.test(height)) {
     let errMsg: string[] = [];
 
     // negative numbers
@@ -44,6 +49,20 @@ const imgFunc = async (
     res
       .status(500)
       .send(`You have to write a proper numeric image ${errMsg.join(' & ')}!`);
+  }
+
+  //  zero inputs
+  else if (width == '0' || height == '0') {
+    let errMsg: string[] = [];
+
+    if (width == '0') errMsg.push('width');
+    if (height == '0') errMsg.push('height');
+
+    res
+      .status(500)
+      .send(
+        `You have to write an image ${errMsg.join(' & ')} that exceeds zero!`
+      );
   }
 
   // Enter image processing only if there's a filename & width,height are Numbers 1+
